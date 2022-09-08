@@ -1,0 +1,6 @@
+<% if @keyword.blank? %>
+    <%= render 'new_search' %>
+<% else %>
+    <%= render 'narrow_down_search' %>
+<% end %>
+

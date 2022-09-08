@@ -1,0 +1,44 @@
+<div class="search">
+  <div class="row">
+    <div class="text-center">
+      <%= form_tag(new_item_path, method: :get, class: 'form-inline') do %>
+        <div class="form-group">
+          <%= hidden_field_tag :keyword, @keyword %>
+          <%= text_field_tag :narrow_down, @narrow_down, class: 'form-control input-lg', placeholder: "絞り込み文字列を入力", size: 40 %>
+          <%= select_tag :option, raw("<option selected>含まない</option><option>含む</option><option>円以下</option><option>円以上</option>") %>
+        </div>
+        <%= submit_tag '商品を検索', class: 'btn btn-success btn-lg' %>
+        <% unless @start_page %>
+          <br>
+          <br>
+          <%= submit_tag '△ 前に', class: 'btn btn-success btn-lg' %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render 'items_list', items: @items %>
+<% if @items.empty? %>
+  <% if @end_of_data > 0 %>
+    <div><%= @end_of_data %>円以下で条件に合う製品は有りません</div>
+  <% else %>
+    <div>これ以上、条件に合う製品は有りません</div>
+  <% end %>
+<% end %>
+
+<% if @end_of_data.positive? %>
+  <br>
+  <div class="search">
+    <div class="row">
+      <div class="text-center">
+        <%= form_tag(new_item_path, method: :get, class: 'form-inline') do %>
+          <div class="form-group">
+            <%= hidden_field_tag :keyword, @keyword %>
+          </div>
+          <%= submit_tag '▽ 次に', class: 'btn btn-success btn-lg' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
