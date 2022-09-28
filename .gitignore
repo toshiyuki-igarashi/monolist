@@ -30,3 +30,7 @@
 /config/secrets/simple-diary-owner.json
 
 /config/credentials/production.key
+
+# Ignore unicorn/Webpacker generated
+/lib/*
+/node_modules/*
