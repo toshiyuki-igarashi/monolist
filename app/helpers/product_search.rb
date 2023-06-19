@@ -46,7 +46,7 @@ module ProductSearch
     case code[0]
     when 'code'
       "#{shop_mall}#{item[code[1]]}"
-    when 'price', 'image_url'
+    when 'price', 'image_url', 'genre'
       code[1].call(item)
     else
       item[code[1]]
@@ -133,7 +133,8 @@ module ProductSearch
     %w[caption itemCaption],
     %w[code itemCode],
     ['price', ->(item) { item['itemPrice'] }],
-    ['image_url', ->(item) { item['mediumImageUrls'][0]['imageUrl'] if exist_image_rakuten?(item) }]
+    ['image_url', ->(item) { item['mediumImageUrls'][0]['imageUrl'] if exist_image_rakuten?(item) }],
+    ['genre', ->(item) { "R#{item['genreId']}" }]
   ].freeze
 
   def exist_image_rakuten?(item)
@@ -173,7 +174,8 @@ module ProductSearch
     %w[caption description],
     %w[code code],
     ['price', ->(item) { item['price'] }],
-    ['image_url', ->(item) { item['image']['medium'] }]
+    ['image_url', ->(item) { item['image']['medium'] }],
+    ['genre', ->(item) { "Y#{item['genreCategory']['id']}" }]
   ].freeze
 
   def keyword_search_yahoo(search_parms)
@@ -198,7 +200,8 @@ module ProductSearch
     %w[caption Description],
     %w[code Code],
     ['price', ->(item) { item['Price']['_value'] }],
-    ['image_url', ->(item) { item['Image']['Medium'] }]
+    ['image_url', ->(item) { item['Image']['Medium'] }],
+    ['genre', ->(item) { "Y#{item['genreCategory']['id']}" }]
   ].freeze
 
   def parse_yahoo_code(body)
