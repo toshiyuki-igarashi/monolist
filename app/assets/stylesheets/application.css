@@ -52,7 +52,7 @@ footer {
 /* item */
 /* 修正分 */
 .item .panel-body {
-  height: 120px;    /* Want ボタンが増えたので、70px から 120pxに修正 */
+  height: 130px;    /* ボタンが増えたので、70px から 130pxに修正 */
 }
 
 /* 追加分 */

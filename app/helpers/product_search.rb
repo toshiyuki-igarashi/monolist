@@ -201,7 +201,7 @@ module ProductSearch
     %w[code Code],
     ['price', ->(item) { item['Price']['_value'] }],
     ['image_url', ->(item) { item['Image']['Medium'] }],
-    ['genre', ->(item) { "Y#{item['genreCategory']['id']}" }]
+    ['genre', ->(_item) { 'Y' }]
   ].freeze
 
   def parse_yahoo_code(body)

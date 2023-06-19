@@ -19,6 +19,14 @@
                 <% if logged_in? %>
                   <%= render 'ownerships/want_button', item: item %>
                   <%= render 'ownerships/have_button', item: item %>
+
+                  <%= form_tag(new_item_path, method: :get, class: 'form-inline') do %>
+                    <div class="form-group">
+                      <%= hidden_field_tag :keyword, @keyword %>
+                      <%= hidden_field_tag :genreid, item.genre %>
+                    </div>
+                    <%= submit_tag '同一カテゴリー商品の表示', class: 'btn btn-link btn-sm' %>
+                  <% end %>
                 <% end %>
               </div>
             </div>
