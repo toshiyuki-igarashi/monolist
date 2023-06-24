@@ -224,6 +224,8 @@ module ProductSearch
       keyword['exclude_words'] << item.sub(/含まない$/, '')
     when /page$/
       keyword['current'] = item.sub(/page$/, '').to_i
+    when /genreid$/
+      keyword['genreid'] = item.sub(/genreid$/, '')
     else
       keyword['key'] = item
     end
@@ -232,7 +234,7 @@ module ProductSearch
 
   def parse_keywords(keywords)
     items = keywords.split(',')
-    search_parms = { 'key' => '', 'include_words' => [], 'exclude_words' => [], 'current' => 0 }
+    search_parms = { 'key' => '', 'genreid' => '', 'include_words' => [], 'exclude_words' => [], 'current' => 0 }
     items.each do |item|
       search_parms = analyze_keyword(item, search_parms)
     end
@@ -263,9 +265,24 @@ module ProductSearch
     true
   end
 
-  def should_include?(item, search_parms)
+  def included_genre?(item, items)
+    items.each do |genre_item|
+      return true if item['genre'] == genre_item['genre']
+    end
+    false
+  end
+
+  def check_genre?(item, search_parms, items)
+    return !included_genre?(item, items) unless search_parms.key?('genreid')
+    return !included_genre?(item, items) if search_parms['genreid'] == ''
+
+    item['genre'] == search_parms['genreid']
+  end
+
+  def should_include?(item, search_parms, items)
     return false if search_parms.key?('price_from') && item['price'] < search_parms['price_from'].to_i
     return false if search_parms.key?('price_to') && item['price'] > search_parms['price_to'].to_i
+    return false unless check_genre?(item, search_parms, items)
 
     including_all_words?(item, search_parms['include_words']) &&
       !including_some_words?(item, search_parms['exclude_words'])
@@ -274,7 +291,7 @@ module ProductSearch
   def select_items(list, search_parms)
     result = []
     list.each do |item|
-      result << item if should_include?(item, search_parms)
+      result << item if should_include?(item, search_parms, result)
     end
     result
   end

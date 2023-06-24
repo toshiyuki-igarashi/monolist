@@ -13,6 +13,7 @@ class ItemsController < ApplicationController
     @keyword = search_params = params[:keyword]
     @narrow_down = params[:narrow_down]
     @option = params[:option]
+    @genreid = params[:genreid]
     @end_of_data = -1
     page_info = { 'prev' => [], 'lowest_price' => 0 }
     case params[:commit]
@@ -34,6 +35,10 @@ class ItemsController < ApplicationController
           page_info = JSON::parse(current_user.search_result)
           search_params = "#{@keyword},#{page_info['lowest_price']}円以上"
         end
+      end
+    when '同一カテゴリー商品の表示'
+      if @genreid
+        @keyword = search_params = "#{@keyword},#{@genreid}genreid"
       end
     end
 
