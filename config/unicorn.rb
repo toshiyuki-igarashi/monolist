@@ -8,7 +8,7 @@ ENV['BUNDLE_GEMFILE'] = rails_root + "/Gemfile"
 
 # Unicornの設定
 worker_processes  2
-timeout           15
+timeout           60
 working_directory rails_root
 pid               File.expand_path 'tmp/pids/unicorn.pid', rails_root
 listen            File.expand_path 'tmp/sockets/.unicorn.sock', rails_root
