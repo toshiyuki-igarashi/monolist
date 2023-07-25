@@ -52,7 +52,13 @@ footer {
 /* item */
 /* 修正分 */
 .item .panel-body {
-  height: 130px;    /* ボタンが増えたので、70px から 130pxに修正 */
+  height: 130px;    /* ボタンが増えたので、70px から 150pxに修正 */
+}
+
+@media (max-width: 400px) {
+  .item .panel-body {
+    height: 150px;    /* ボタンが増えたので、70px から 150pxに修正 */
+  }
 }
 
 /* 追加分 */
