@@ -34,3 +34,7 @@
 # Ignore unicorn/Webpacker generated
 /lib/*
 /node_modules/*
+
+# Ignore precompiled files
+/public/assets/*
+/public/packs/*
